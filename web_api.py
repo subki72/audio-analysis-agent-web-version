@@ -80,15 +80,11 @@ app = FastAPI(
     lifespan=lifespan,
 )
 
-# CORS: di production, set CORS_ORIGINS=https://your-app.vercel.app
-_default_origins = ["http://localhost:5173", "http://127.0.0.1:5173"]
-_env_origins = os.getenv("CORS_ORIGINS", "")
-_origins = [o.strip() for o in _env_origins.split(",") if o.strip()] if _env_origins else _default_origins
-
+# CORS: Buka untuk semua origin agar mudah diakses dari Vercel
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=_origins,
-    allow_credentials=True,
+    allow_origins=["*"],
+    allow_credentials=False,
     allow_methods=["*"],
     allow_headers=["*"],
 )
