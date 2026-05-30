@@ -1,0 +1,24 @@
+# Konfigurasi VoiceScript
+
+api:
+  provider: "groq"                # Penyedia layanan cloud
+  model: "whisper-large-v3"       # Model speech-to-text Groq (untuk transkripsi)
+  timeout: 60                     # Batas waktu request API (detik)
+
+audio:
+  supported_formats: ["mp3", "wav", "m4a", "webm", "ogg", "flac", "aac", "wma"]
+  max_size_mb: 25                 # Batas ukuran file audio Groq API (25MB)
+  chunk_duration_seconds: 600     # Durasi potongan audio (10 menit) jika melebihi max_size_mb
+  target_format: "mp3"            # Format output untuk potongan audio
+
+output:
+  default_format: "txt"           # Format output default: txt, srt, vtt, atau json
+  dir: "data/transcripts"         # Direktori penyimpanan hasil transkripsi
+
+# Konfigurasi Audio Analysis Agent
+analysis:
+  llm_model: "llama-3.3-70b-versatile"   # Model LLM untuk reasoning Agent
+  noise_threshold: "-50dB"                # Threshold noise untuk deteksi silence
+  min_silence_duration: 2.0               # Durasi minimum silence (detik)
+  clipping_threshold_db: -1.0             # Max volume >= ini dianggap clipping
+  low_volume_threshold_db: -35.0          # Mean volume < ini dianggap terlalu rendah

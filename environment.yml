@@ -1,0 +1,18 @@
+name: voicescript
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - python=3.10
+  - ffmpeg
+  - pip
+  - pip:
+      - openai
+      - groq
+      - "mcp[cli]"
+      - python-dotenv
+      - pydub
+      - click
+      - pyyaml
+      - pytest
+      - requests
