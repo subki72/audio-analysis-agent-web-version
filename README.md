@@ -233,8 +233,6 @@ Tools yang tersedia:
 - `detect_clipping` — Ukur level volume dan deteksi clipping via ffmpeg volumedetect
 - `detect_noise` — Analisis level noise dan dynamic range via ffmpeg astats
 
-> 💡 **Melampaui Requirement:** Assessment membutuhkan 3 tool MCP. Proyek ini mengekspos 4 — `detect_noise` (ffmpeg astats) ditambahkan untuk menyediakan analisis dynamic range dan noise floor, memungkinkan penilaian kualitas audio yang lebih mendalam.
-
 ---
 
 ## Web UI
