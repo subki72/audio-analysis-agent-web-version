@@ -274,8 +274,8 @@ Buka browser di `http://localhost:5173`.
 
 ### Fitur Web UI
 
-- **🔬 Mode Analisis** — Upload file audio dan dapatkan laporan kualitas lengkap (silence ratio, volume, clipping, AI insights)
-- **📝 Mode Transkripsi** — Upload file audio dan dapatkan transkripsi teks otomatis (mendukung 9 bahasa)
+- **Mode Analisis** — Upload file audio dan dapatkan laporan kualitas lengkap (silence ratio, volume, clipping, AI insights)
+- **Mode Transkripsi** — Upload file audio dan dapatkan transkripsi teks otomatis (mendukung 9 bahasa)
 - **Drag & Drop** — Seret file audio langsung ke browser
 - **Download Hasil** — Download laporan JSON atau teks transkripsi
 - **Dark Mode** — Desain gelap yang nyaman untuk mata
