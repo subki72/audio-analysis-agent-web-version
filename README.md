@@ -1,3 +1,12 @@
+---
+title: VoiceScript API
+emoji: 🎙️
+colorFrom: blue
+colorTo: indigo
+sdk: docker
+app_port: 7860
+pinned: false
+---
 
 # VoiceScript - Audio Analysis Agent (ffmpeg + LLM)
 
