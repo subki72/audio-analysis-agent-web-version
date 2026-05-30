@@ -63,7 +63,12 @@ venv.bak/
 
 # Project specific
 data/transcripts/
+data/uploads/
 .cache/
 
 # Dokumentasi internal (catatan pribadi, bukan untuk submit)
 docs/
+
+# Web frontend
+web/node_modules/
+web/dist/
