@@ -82,6 +82,15 @@ VoiceScript/
 │   │   └── transcriber.py      # Speech-to-text via Groq Whisper API
 │   └── utils/
 │       └── helpers.py          # Pemuat konfigurasi, formatter SRT/VTT
+├── web/                        # React frontend (Vite)
+│   ├── src/
+│   │   ├── App.jsx             # Komponen utama (tab analyze/transcribe)
+│   │   ├── api/voicescript.js  # Wrapper API (axios)
+│   │   └── components/         # UploadZone, ProgressBar, QualityMetrics, dll.
+│   ├── index.html              # HTML entry point
+│   └── vite.config.js          # Proxy ke FastAPI :8000
+├── web_api.py                  # FastAPI REST API backend
+├── start-web.ps1               # Script PowerShell untuk menjalankan Web UI
 ├── mcp_server.py               # Server MCP (FastMCP) yang mengekspos tools
 ├── tests/                      # Unit test
 ├── .env.example                # Template untuk API key
@@ -225,6 +234,52 @@ Tools yang tersedia:
 - `detect_noise` — Analisis level noise dan dynamic range via ffmpeg astats
 
 > 💡 **Melampaui Requirement:** Assessment membutuhkan 3 tool MCP. Proyek ini mengekspos 4 — `detect_noise` (ffmpeg astats) ditambahkan untuk menyediakan analisis dynamic range dan noise floor, memungkinkan penilaian kualitas audio yang lebih mendalam.
+
+---
+
+## Web UI
+
+VoiceScript juga menyediakan antarmuka web modern untuk analisis dan transkripsi audio melalui browser.
+
+### Arsitektur Web
+
+```
+Browser (React + Vite)     FastAPI Backend
+     :5173          ──→        :8000
+                              /api/health
+    Upload File     ──→    /api/analyze
+    Upload File     ──→    /api/transcribe
+```
+
+### Menjalankan Web UI
+
+Cara termudah adalah menggunakan script PowerShell yang menjalankan kedua server sekaligus:
+
+```powershell
+.\start-web.ps1
+```
+
+Atau jalankan manual di dua terminal:
+
+```bash
+# Terminal 1 — Backend
+python -m uvicorn web_api:app --reload --port 8000
+
+# Terminal 2 — Frontend
+cd web
+npm run dev
+```
+
+Buka browser di `http://localhost:5173`.
+
+### Fitur Web UI
+
+- **🔬 Mode Analisis** — Upload file audio dan dapatkan laporan kualitas lengkap (silence ratio, volume, clipping, AI insights)
+- **📝 Mode Transkripsi** — Upload file audio dan dapatkan transkripsi teks otomatis (mendukung 9 bahasa)
+- **Drag & Drop** — Seret file audio langsung ke browser
+- **Download Hasil** — Download laporan JSON atau teks transkripsi
+- **Dark Mode** — Desain gelap yang nyaman untuk mata
+- **API Health Monitor** — Indikator status koneksi backend secara real-time
 
 ---
 
