@@ -10,6 +10,18 @@ from src.tools.ffmpeg_finder import find_ffmpeg
 from src.tools.registry import register_tool
 
 
+def _safe_float(value: str) -> float | None:
+    """Konversi string ke float, return None jika gagal (misalnya '-', 'nan', '-inf')."""
+    try:
+        result = float(value)
+        # -inf / inf tidak berguna sebagai metrik
+        if result == float('-inf') or result == float('inf'):
+            return None
+        return result
+    except (ValueError, TypeError):
+        return None
+
+
 @register_tool
 def detect_noise(file_path: str) -> dict:
     """
@@ -50,13 +62,13 @@ def detect_noise(file_path: str) -> dict:
         stderr = result.stderr
         
         # Parse metrik astats keseluruhan dari stderr
-        rms_match = re.search(r"RMS level dB:\s*([-\d.]+)", stderr)
-        peak_match = re.search(r"Peak level dB:\s*([-\d.]+)", stderr)
-        crest_match = re.search(r"Crest factor:\s*([-\d.]+)", stderr)
+        rms_match = re.search(r"RMS level dB:\s*([-\d.]+|[-+]?inf)", stderr)
+        peak_match = re.search(r"Peak level dB:\s*([-\d.]+|[-+]?inf)", stderr)
+        crest_match = re.search(r"Crest factor:\s*([-\d.]+|[-+]?inf)", stderr)
         
-        rms_level = float(rms_match.group(1)) if rms_match else None
-        peak_level = float(peak_match.group(1)) if peak_match else None
-        crest_factor = float(crest_match.group(1)) if crest_match else None
+        rms_level = _safe_float(rms_match.group(1)) if rms_match else None
+        peak_level = _safe_float(peak_match.group(1)) if peak_match else None
+        crest_factor = _safe_float(crest_match.group(1)) if crest_match else None
         
         dynamic_range = None
         if peak_level is not None and rms_level is not None:

@@ -54,21 +54,36 @@ def get_audio_metadata(file_path: str) -> dict:
                 audio_stream = stream
                 break
         
+        def _safe_int(val, default=0):
+            try:
+                return int(val)
+            except (ValueError, TypeError):
+                return default
+
+        def _safe_float(val, default=0.0):
+            try:
+                result = float(val)
+                if result == float('-inf') or result == float('inf'):
+                    return default
+                return result
+            except (ValueError, TypeError):
+                return default
+
         metadata = {
             "filename": os.path.basename(file_path),
             "format": fmt.get("format_name", "unknown"),
             "format_long_name": fmt.get("format_long_name", "unknown"),
-            "size_bytes": int(fmt.get("size", 0)),
-            "duration_seconds": float(fmt.get("duration", 0.0)),
-            "bitrate": int(fmt.get("bit_rate", 0)),
+            "size_bytes": _safe_int(fmt.get("size", 0)),
+            "duration_seconds": _safe_float(fmt.get("duration", 0.0)),
+            "bitrate": _safe_int(fmt.get("bit_rate", 0)),
         }
         
         if audio_stream:
             metadata.update({
                 "codec": audio_stream.get("codec_name", "unknown"),
                 "codec_long_name": audio_stream.get("codec_long_name", "unknown"),
-                "sample_rate": int(audio_stream.get("sample_rate", 0)),
-                "channels": int(audio_stream.get("channels", 0)),
+                "sample_rate": _safe_int(audio_stream.get("sample_rate", 0)),
+                "channels": _safe_int(audio_stream.get("channels", 0)),
                 "channel_layout": audio_stream.get("channel_layout", "unknown"),
             })
         else:

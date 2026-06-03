@@ -9,6 +9,17 @@ import os
 from src.tools.ffmpeg_finder import find_ffmpeg
 from src.tools.registry import register_tool
 
+
+def _safe_float(value: str) -> float | None:
+    """Konversi string ke float, return None jika gagal (misalnya '-', 'nan', '-inf')."""
+    try:
+        result = float(value)
+        if result == float('-inf') or result == float('inf'):
+            return None
+        return result
+    except (ValueError, TypeError):
+        return None
+
 _CONFIG = {
     "clipping_threshold_db": -1.0,
     "low_volume_threshold_db": -35.0,
@@ -69,11 +80,11 @@ def detect_clipping(file_path: str, clipping_threshold_db: float = None, low_vol
         stderr = result.stderr
         
         # Parse metrik volumedetect: mean_volume, max_volume, histogram
-        mean_match = re.search(r"mean_volume:\s*([-\d.]+)\s*dB", stderr)
-        max_match = re.search(r"max_volume:\s*([-\d.]+)\s*dB", stderr)
+        mean_match = re.search(r"mean_volume:\s*([-\d.]+|[-+]?inf)\s*dB", stderr)
+        max_match = re.search(r"max_volume:\s*([-\d.]+|[-+]?inf)\s*dB", stderr)
         
-        mean_volume = float(mean_match.group(1)) if mean_match else None
-        max_volume = float(max_match.group(1)) if max_match else None
+        mean_volume = _safe_float(mean_match.group(1)) if mean_match else None
+        max_volume = _safe_float(max_match.group(1)) if max_match else None
         
         histogram = {}
         hist_matches = re.findall(r"histogram_(\d+)db:\s*(\d+)", stderr)
