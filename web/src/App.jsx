@@ -208,7 +208,7 @@ function App() {
                   id="submit-btn"
                   onClick={handleSubmit}
                   disabled={!file || apiOnline !== true}
-                  style={{ minWidth: 240, padding: '12px 28px', fontSize: '0.95rem', fontWeight: 700 }}
+                  style={{ minWidth: 240, padding: '12px 28px', fontSize: '0.95rem', fontWeight: 700, display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: 8 }}
                 >
                   <IconZap size={18} />
                   {mode === 'analyze' ? 'Mulai Analisis' : 'Mulai Transkripsi'}
