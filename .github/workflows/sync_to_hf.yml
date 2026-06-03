@@ -1,8 +1,8 @@
 name: Sync to Hugging Face
 on:
   push:
-    branches: [main] # Ganti jika branch utama kamu bukan 'main'
-  force_push:
+    branches: [main]
+  workflow_dispatch: # Allows manual trigger from GitHub UI
 
 jobs:
   sync-to-hub:
