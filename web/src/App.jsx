@@ -90,7 +90,7 @@ function App() {
         <div className="container navbar-inner">
           <a href="/" className="navbar-brand" onClick={(e) => { e.preventDefault(); reset() }}>
             <span className="brand-icon"><IconMicrophone size={18} /></span>
-            <span style={{ fontWeight: 800 }}>VoiceScript</span>
+            <span style={{ fontWeight: 800 }}>Vocalis</span>
           </a>
           <div className="navbar-status" id="api-status">
             <span className={`status-dot ${apiOnline === true ? 'online' : apiOnline === false ? 'offline' : ''}`} />
@@ -243,7 +243,7 @@ function App() {
       {/* ── Footer ─────────────────────────────────── */}
       <footer style={{ textAlign: 'center', padding: '24px 0', borderTop: '1px solid var(--border)' }}>
         <span style={{ color: 'var(--text-muted)', fontSize: '0.85rem', fontWeight: 500 }}>
-          VoiceScript v1.0 · Powered by Groq & FFmpeg
+          Vocalis v1.0 · Powered by Groq & FFmpeg
         </span>
       </footer>
     </div>
