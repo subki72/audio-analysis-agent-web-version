@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback } from 'react'
+import { Analytics } from '@vercel/analytics/react'
 import { checkHealth, analyzeAudio, transcribeAudio } from './api/voicescript'
 import { IconMicrophone, IconWaveform, IconFileText, IconZap } from './components/Icons'
 import UploadZone from './components/UploadZone'
@@ -246,6 +247,7 @@ function App() {
           VoiceScript v1.0 · Powered by Groq & FFmpeg
         </span>
       </footer>
+      <Analytics />
     </div>
   )
 }
