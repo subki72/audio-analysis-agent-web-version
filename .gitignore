@@ -62,8 +62,7 @@ env.bak/
 venv.bak/
 
 # Project specific
-data/transcripts/
-data/uploads/
+data/
 .cache/
 
 # Dokumentasi internal (catatan pribadi, bukan untuk submit)
