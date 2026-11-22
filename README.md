@@ -10,7 +10,37 @@ pinned: false
 
 # VoiceScript - Audio Analysis Agent (ffmpeg + LLM)
 
+[![CI Pipeline](https://github.com/subki72/audio-analysis-agent-web-version/actions/workflows/ci.yml/badge.svg)](https://github.com/subki72/audio-analysis-agent-web-version/actions/workflows/ci.yml)
+[![Maturity Grade: Production](https://img.shields.io/badge/Maturity%20Grade-Production%20(74.8%2F100)-success.svg)](https://github.com/subki72/audio-analysis-agent-web-version)
+[![Python 3.10+](https://img.shields.io/badge/python-3.10%2B-blue.svg)](https://www.python.org/)
+[![FastAPI](https://img.shields.io/badge/FastAPI-0.115+-009688.svg?logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+
 Sistem bertenaga AI yang menganalisis file audio dan menghasilkan insight terstruktur menggunakan **ffmpeg/ffprobe** untuk analisis teknis dan **Groq LLM** untuk ringkasan cerdas.
+
+---
+
+## Quickstart (Single-Command Workflow)
+
+```bash
+git clone https://github.com/subki72/audio-analysis-agent-web-version.git
+cd audio-analysis-agent-web-version
+
+# 1. Install pinned dependencies
+make install
+
+# 2. Run automated test suite
+make test
+
+# 3. Run Ruff linter
+make lint
+
+# 4. Launch FastAPI backend locally
+make run
+
+# 5. Build production Docker image
+make docker-build
+```
 
 ## Arsitektur
 
@@ -298,3 +328,19 @@ Contoh laporan yang sudah di-generate tersedia di direktori `data/`:
 - [`moonlight-plaza_report.json`](data/moonlight-plaza_report.json) — Analisis file tunggal
 - [`batch_insights_report.json`](data/batch_insights_report.json) — Analisis batch (2 file)
 - [`example_verbose_trace.txt`](data/example_verbose_trace.txt) — Trace reasoning agent (mode `--verbose`)
+
+---
+
+## Security & Governance
+
+- **Vulnerability Disclosure**: Review our security reporting guidelines in [SECURITY.md](SECURITY.md).
+- **Operational Runbook**: Production health probes, upload TTL cleanup, and troubleshooting in [runbook.md](runbook.md).
+- **Contribution Guidelines**: Development setup and pull request etiquette in [CONTRIBUTING.md](CONTRIBUTING.md).
+- **Release Changelog**: Track semantic releases and version updates in [CHANGELOG.md](CHANGELOG.md).
+- **License**: Explicit open source licensing under the [MIT License](LICENSE).
+
+---
+
+## License
+
+Distributed under the [MIT License](LICENSE). See `LICENSE` for more information.
