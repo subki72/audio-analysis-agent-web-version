@@ -22,9 +22,12 @@ from fastapi.responses import JSONResponse
 
 from src.utils.helpers import load_config
 from src.agent.orchestrator import AudioAnalysisAgent
+from src.schemas import AudioAnalysisRequest, HealthStatusResponse, RateLimiter
 from src.transcription.transcriber import Transcriber
 from src.tools.silence import configure as configure_silence
 from src.tools.volume import configure as configure_volume
+
+rate_limiter = RateLimiter(max_requests=30, window_seconds=60)
 
 load_dotenv()
 
@@ -94,6 +97,7 @@ app.add_middleware(
 
 def _save_upload(upload: UploadFile) -> Path:
     """Simpan file upload ke UPLOAD_DIR dengan UUID filename. Return path-nya."""
+    AudioAnalysisRequest(filename=upload.filename or "audio.mp3")
     suffix = Path(upload.filename).suffix.lower()
     if suffix not in SUPPORTED_EXTENSIONS:
         raise HTTPException(

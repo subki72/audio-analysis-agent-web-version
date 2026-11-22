@@ -10,6 +10,7 @@ Pola ReAct (Reason + Act):
 import os
 import json
 import hashlib
+import logging
 import platform
 from dotenv import load_dotenv
 from groq import Groq
@@ -17,6 +18,8 @@ from groq import Groq
 from src.tools import TOOL_REGISTRY, TOOL_SCHEMAS
 
 load_dotenv()
+logger = logging.getLogger(__name__)
+logger.info("AudioAnalysisAgent orchestrator module initialized")
 
 SYSTEM_PROMPT = """Kamu adalah Audio Analysis Agent yang ahli dalam analisis kualitas audio.
 Tugasmu adalah menganalisis file audio secara menyeluruh dan memberikan penilaian profesional.
