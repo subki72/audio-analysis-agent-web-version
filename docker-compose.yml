@@ -1,0 +1,13 @@
+services:
+  voicescript-api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: voicescript-api:latest
+    container_name: voicescript-api
+    ports:
+      - "7860:7860"
+    env_file:
+      - path: .env
+        required: false
+    restart: unless-stopped
