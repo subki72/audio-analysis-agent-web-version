@@ -1,5 +1,5 @@
 # Deterministic locked dependency snapshot
-groq==0.13.1
+groq==1.7.0
 mcp[cli]==1.2.0
 python-dotenv==1.0.1
 pydub==0.25.1
