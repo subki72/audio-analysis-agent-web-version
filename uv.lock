@@ -1,0 +1,19 @@
+version = 1
+requires-python = ">=3.10"
+
+[[package]]
+name = "voicescript-audio-analysis-agent"
+version = "1.0.0"
+source = { virtual = "." }
+dependencies = [
+    { name = "groq" },
+    { name = "mcp" },
+    { name = "python-dotenv" },
+    { name = "pydub" },
+    { name = "click" },
+    { name = "pyyaml" },
+    { name = "fastapi" },
+    { name = "uvicorn" },
+    { name = "python-multipart" },
+    { name = "pydantic" },
+]
