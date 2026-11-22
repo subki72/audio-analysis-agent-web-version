@@ -1,6 +1,6 @@
 # Deterministic locked dependency snapshot
 groq==0.13.1
-mcp[cli]==1.2.0
+mcp[cli]==2.3.0
 python-dotenv==1.0.1
 pydub==0.25.1
 click==8.1.7
