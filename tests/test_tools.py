@@ -5,12 +5,13 @@ Test dijalankan menggunakan file nyata data/bad_audio.mp3 dengan ffmpeg.
 Dilewati otomatis jika ffmpeg tidak terinstal (misal di CI tanpa ffmpeg).
 """
 import os
+
 import pytest
 
 from src.tools.metadata import get_audio_metadata
+from src.tools.noise import detect_noise
 from src.tools.silence import detect_silence
 from src.tools.volume import detect_clipping
-from src.tools.noise import detect_noise
 
 
 def _ffmpeg_available() -> bool:

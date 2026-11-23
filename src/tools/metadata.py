@@ -4,8 +4,9 @@ Mengambil metadata file audio menggunakan ffprobe.
 Command: ffprobe -v quiet -print_format json -show_format -show_streams <file>
 """
 import json
-import subprocess
 import os
+import subprocess
+
 from src.tools.ffmpeg_finder import find_ffprobe
 from src.tools.registry import register_tool
 
@@ -14,16 +15,16 @@ from src.tools.registry import register_tool
 def get_audio_metadata(file_path: str) -> dict:
     """
     Mengambil metadata dari file audio menggunakan ffprobe.
-    
+
     Returns:
         dict dengan kunci: filename, format, size_bytes, duration_seconds,
         sample_rate, channels, codec, bitrate
     """
     if not os.path.exists(file_path):
         return {"error": f"File tidak ditemukan: {file_path}"}
-    
+
     ffprobe = find_ffprobe()
-    
+
     cmd = [
         ffprobe,
         "-v", "quiet",
@@ -32,7 +33,7 @@ def get_audio_metadata(file_path: str) -> dict:
         "-show_streams",
         file_path
     ]
-    
+
     try:
         result = subprocess.run(
             cmd,
@@ -40,20 +41,20 @@ def get_audio_metadata(file_path: str) -> dict:
             text=True,
             timeout=30
         )
-        
+
         if result.returncode != 0:
             return {"error": f"ffprobe gagal: {result.stderr.strip()}"}
-        
+
         probe_data = json.loads(result.stdout)
-        
+
         fmt = probe_data.get("format", {})
-        
+
         audio_stream = None
         for stream in probe_data.get("streams", []):
             if stream.get("codec_type") == "audio":
                 audio_stream = stream
                 break
-        
+
         def _safe_int(val, default=0):
             try:
                 return int(val)
@@ -77,7 +78,7 @@ def get_audio_metadata(file_path: str) -> dict:
             "duration_seconds": _safe_float(fmt.get("duration", 0.0)),
             "bitrate": _safe_int(fmt.get("bit_rate", 0)),
         }
-        
+
         if audio_stream:
             metadata.update({
                 "codec": audio_stream.get("codec_name", "unknown"),
@@ -92,9 +93,9 @@ def get_audio_metadata(file_path: str) -> dict:
                 "sample_rate": 0,
                 "channels": 0,
             })
-        
+
         return metadata
-        
+
     except subprocess.TimeoutExpired:
         return {"error": "ffprobe timeout setelah 30 detik."}
     except json.JSONDecodeError as e:

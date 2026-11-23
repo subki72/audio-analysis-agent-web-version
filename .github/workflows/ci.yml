@@ -47,7 +47,7 @@ jobs:
           pip install -r requirements.txt
 
       - name: Run Pytest Suite
-        run: pytest tests/ -v
+        run: python -m pytest tests/ -v
 
   build-and-security:
     name: Docker Build & Security Scans
@@ -67,7 +67,7 @@ jobs:
         run: docker build -t voicescript-api:ci .
 
       - name: Run Trivy Container Vulnerability Scanner
-        uses: aquasecurity/trivy-action@0.28.0
+        uses: aquasecurity/trivy-action@master
         with:
           image-ref: voicescript-api:ci
           format: table

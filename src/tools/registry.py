@@ -22,52 +22,52 @@ TOOL_SCHEMAS: list[dict] = []
 def register_tool(func: Callable) -> Callable:
     """
     Decorator untuk mendaftarkan fungsi sebagai tool yang bisa dipanggil LLM.
-    
+
     Cara pakai:
         @register_tool
         def my_tool(file_path: str) -> dict:
             \"\"\"Deskripsi tool yang akan muncul di LLM.\"\"\"
             ...
-    
+
     Decorator ini otomatis:
     1. Menambahkan fungsi ke TOOL_REGISTRY dengan nama fungsi sebagai key.
     2. Membuat JSON schema dari type hints dan docstring, lalu tambahkan ke TOOL_SCHEMAS.
     """
     TOOL_REGISTRY[func.__name__] = func
-    
+
     hints = get_type_hints(func)
     sig = inspect.signature(func)
-    
+
     properties = {}
     required = []
-    
+
     for param_name, param in sig.parameters.items():
         if param_name == "return":
             continue
-        
+
         python_type = hints.get(param_name, str)
-        if python_type == str:
+        if python_type is str:
             json_type = "string"
-        elif python_type == float:
+        elif python_type is float:
             json_type = "number"
-        elif python_type == int:
+        elif python_type is int:
             json_type = "integer"
-        elif python_type == bool:
+        elif python_type is bool:
             json_type = "boolean"
         else:
             json_type = "string"
-        
+
         properties[param_name] = {
             "type": json_type,
             "description": f"Parameter {param_name} untuk {func.__name__}"
         }
-        
+
         if param.default is inspect.Parameter.empty:
             required.append(param_name)
-    
+
     docstring = (func.__doc__ or "").strip()
     description = docstring.split('\n')[0] if docstring else func.__name__
-    
+
     schema = {
         "type": "function",
         "function": {
@@ -80,6 +80,6 @@ def register_tool(func: Callable) -> Callable:
             }
         }
     }
-    
+
     TOOL_SCHEMAS.append(schema)
     return func

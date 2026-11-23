@@ -1,9 +1,11 @@
 import os
+
 from pydub import AudioSegment
+
 
 class AudioProcessor:
     """Kelas untuk menangani pemrosesan audio lokal seperti konversi, pemisahan file besar, dll."""
-    
+
     def __init__(self, settings: dict = None):
         self.settings = settings or {}
 
@@ -40,12 +42,12 @@ class AudioProcessor:
         chunk_duration_sec = self.settings.get('audio', {}).get('chunk_duration_seconds', 600)
         chunk_duration_ms = chunk_duration_sec * 1000
         target_format = self.settings.get('audio', {}).get('target_format', 'mp3')
-        
+
         audio = AudioSegment.from_file(file_path)
         chunks = []
-        
+
         base, _ = os.path.splitext(file_path)
-        
+
         # Pydub split
         for i in range(0, len(audio), chunk_duration_ms):
             part_num = (i // chunk_duration_ms) + 1
@@ -53,5 +55,5 @@ class AudioProcessor:
             chunk_path = f"{base}_part{part_num}.{target_format}"
             chunk.export(chunk_path, format=target_format)
             chunks.append(chunk_path)
-            
+
         return chunks

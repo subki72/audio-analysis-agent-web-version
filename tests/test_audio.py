@@ -1,5 +1,5 @@
-import pytest
 from src.audio.processor import AudioProcessor
+
 
 def test_audio_metadata():
     processor = AudioProcessor()
