@@ -62,7 +62,9 @@ env.bak/
 venv.bak/
 
 # Project specific
-data/
+data/*
+!data/bad_audio.mp3
+!data/moonlight-plaza.mp3
 .cache/
 
 # Dokumentasi internal (catatan pribadi, bukan untuk submit)
