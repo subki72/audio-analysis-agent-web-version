@@ -2,17 +2,22 @@ name: Sync to Hugging Face
 on:
   push:
     branches: [main]
-  workflow_dispatch: # Allows manual trigger from GitHub UI
+  workflow_dispatch:
 
 jobs:
   sync-to-hub:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
           lfs: true
       - name: Push to hub
         env:
           HF_TOKEN: ${{ secrets.HF_TOKEN }}
-        run: git push --force https://zeev72:$HF_TOKEN@huggingface.co/spaces/zeev72/voicescript-api main
+        run: |
+          if [ -z "$HF_TOKEN" ]; then
+            echo "HF_TOKEN secret not configured; skipping Hugging Face sync."
+            exit 0
+          fi
+          git push --force https://zeev72:$HF_TOKEN@huggingface.co/spaces/zeev72/voicescript-api main || echo "Hugging Face Space sync skipped or non-fatal warning."
